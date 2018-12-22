@@ -16,7 +16,9 @@ class SPVAddTransaction extends Component {
         from:"",
         to:"",
         amount:"",
-        buyerSignature:""
+        buyerSignature:"",
+        flag:false,
+        flag1:false
     }
 
     makeTransaction(today){
@@ -35,13 +37,21 @@ class SPVAddTransaction extends Component {
             "sellerSignature": ""
         }
         socket.emit('sendTransaction',trans);
+        this.setState({
+            flag1:true
+        })
     }
 
        
 
     verify = async ()=> {
         socket.emit('verifyTransaction');
+        this.setState({
+            flag:true
+        })
     }
+
+  
 
 
   render() {
@@ -115,7 +125,26 @@ class SPVAddTransaction extends Component {
                 </div>
                 <div className="buttons2" style={{marginTop: 30}}>
                         <button onClick={this.verify.bind(this)}> VERIFY </button>
-                </div>
+                         </div>
+
+                         {
+                            this.state.flag1?
+                        <div className="note1" align="center" >
+                        {
+                            this.state.flag?
+                            <div>
+                             Transaction Verified !!!!
+                            </div>
+                            :
+                            <div>
+                            Transaction not Verified !!!
+                            </div>
+                        }
+                        </div>
+                        :
+                        <div> </div>
+                        }
+               
             </div>
         </div>
     );
